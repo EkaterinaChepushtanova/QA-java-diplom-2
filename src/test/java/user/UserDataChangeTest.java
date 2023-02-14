@@ -12,29 +12,31 @@ public class UserDataChangeTest {
     private final ChecksForUser checks = new ChecksForUser();
     private final UserGenerator generator = new UserGenerator();
     private String accessToken;
+    private String changedAccessToken;
 
     @Test
     @DisplayName("Check that the user data can be changed with authorization")
     public void userDataCanBeChangedWithAuthorizationTest() {
         User user = generator.randomData();
-        Response response = client.create(user);
-        checks.doneSuccessfully(response);
+        Response createResponse = client.create(user);
+        checks.toDoSuccessfully(createResponse);
 
-        accessToken = response.path("accessToken");
-        Response response2 = client.change(accessToken, generator.randomData());
-        checks.doneSuccessfully(response2);
+        accessToken = createResponse.path("accessToken");
+        Response changeResponse = client.change(accessToken, generator.randomData());
+        checks.toDoSuccessfully(changeResponse);
     }
 
     @Test
     @DisplayName("Check that the user data can not be changed without authorization")
     public void userDataCannotBeChangedWithoutAuthorizationTest() {
         User user = generator.randomData();
-        Response response = client.create(user);
-        checks.doneSuccessfully(response);
+        Response createResponse = client.create(user);
+        checks.toDoSuccessfully(createResponse);
 
-        accessToken = "";
-        Response response1 = client.change(accessToken, generator.randomData());
-        checks.changingUserDataWithoutAuthorization(response1);
+        accessToken = createResponse.path("accessToken");
+
+        Response changeResponse = client.change("", generator.randomData());
+        checks.toChangeUserDataWithoutAuthorization(changeResponse);
     }
 
     @After

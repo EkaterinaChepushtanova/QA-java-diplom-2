@@ -7,12 +7,14 @@ import static io.restassured.RestAssured.given;
 
 public class UserClient extends Client {
 
+    public static final String END_POINT = "api/auth/";
+
     public Response create(User user) {
         return given().log().all()
                 .spec(getSpec())
                 .body(user)
                 .when()
-                .post("api/auth/register");
+                .post(END_POINT + "register");
     }
 
     public Response login(UserCredentials credentials) {
@@ -20,7 +22,7 @@ public class UserClient extends Client {
                 .spec(getSpec())
                 .body(credentials)
                 .when()
-                .post("api/auth/login");
+                .post(END_POINT + "login");
     }
 
     public Response change(String accessToken, User user) {
@@ -29,7 +31,7 @@ public class UserClient extends Client {
                 .header("Authorization", accessToken)
                 .body(user)
                 .when()
-                .patch("api/auth/user");
+                .patch(END_POINT + "user");
     }
 
     public Response delete(String accessToken) {
@@ -37,6 +39,6 @@ public class UserClient extends Client {
                 .spec(getSpec())
                 .header("Authorization", accessToken)
                 .when()
-                .delete("api/auth/user");
+                .delete(END_POINT + "user");
     }
 }

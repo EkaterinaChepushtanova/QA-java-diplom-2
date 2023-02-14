@@ -7,7 +7,7 @@ import static io.restassured.RestAssured.given;
 
 public class OrderClient extends Client {
 
-    public static final String END_POINT = "/api/orders";
+    public static final String END_POINT = "api/orders";
     public Response createOrder(Order order, String accessToken) {
         return given().log().all()
                 .spec(getSpec())

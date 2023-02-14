@@ -8,34 +8,34 @@ import static org.hamcrest.Matchers.notNullValue;
 
 public class ChecksForOrder {
 
-    public void orderCreatedWithIngredients(Response response) {
+    public void toCreateOrderWithIngredients(Response response) {
         response.then().log().all()
                 .assertThat().body("success", equalTo(true))
                 .and()
                 .statusCode(SC_OK);
     }
 
-    public void orderNotCreatedWithoutIngredients(Response response) {
+    public void notToCreateOrderWithoutIngredients(Response response) {
         response.then().log().all()
                 .assertThat().body("message", equalTo("Ingredient ids must be provided"))
                 .and()
                 .statusCode(SC_BAD_REQUEST);
     }
 
-    public void orderNotCreatedWithInvalidHash(Response response) {
+    public void notToCreateOrderWithInvalidHash(Response response) {
         response.then().log().all()
                 .assertThat()
                 .statusCode(SC_INTERNAL_SERVER_ERROR);
     }
 
-    public void listOfOrdersDisplayedWithAuthorization(Response response) {
+    public void toDisplayOrdersListWithAuthorization(Response response) {
         response.then().log().all()
                 .assertThat().body("orders", notNullValue())
                 .and()
                 .statusCode(SC_OK);
     }
 
-    public void listOfOrdersNotDisplayedWithoutAuthorization(Response response) {
+    public void notToDisplayedOrdersListWithoutAuthorization(Response response) {
         response.then().log().all()
                 .assertThat().body("message", equalTo("You should be authorised"))
                 .and()

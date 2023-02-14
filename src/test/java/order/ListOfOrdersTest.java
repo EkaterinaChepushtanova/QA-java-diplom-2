@@ -17,19 +17,20 @@ public class ListOfOrdersTest {
     @Test
     @DisplayName("Check that the list of orders is displayed with authorization")
     public void listOfOrdersDisplayedTest() {
-        User user = generator.loginData();
-        Response response = client.login(UserCredentials.from(user));
-        accessToken = response.path("accessToken");
+        User user = generator.randomData();
+        client.create(user);
+        Response loginResponse = client.login(UserCredentials.from(user));
+        accessToken = loginResponse.path("accessToken");
 
-        Response response2 = orderClient.receivingListOfOrders(accessToken);
-        orderChecks.listOfOrdersDisplayedWithAuthorization(response2);
+        Response orderListResponse = orderClient.receivingListOfOrders(accessToken);
+        orderChecks.toDisplayOrdersListWithAuthorization(orderListResponse);
     }
 
     @Test
     @DisplayName("Check that the list of orders is not displayed without authorization")
     public void listOfOrdersNotDisplayedTest() {
         accessToken = "";
-        Response response = orderClient.receivingListOfOrders(accessToken);
-        orderChecks.listOfOrdersNotDisplayedWithoutAuthorization(response);
+        Response orderListResponse = orderClient.receivingListOfOrders(accessToken);
+        orderChecks.notToDisplayedOrdersListWithoutAuthorization(orderListResponse);
     }
 }
