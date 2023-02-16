@@ -3,6 +3,7 @@ package order;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.example.order.*;
+import org.junit.After;
 import org.junit.Test;
 import org.example.user.*;
 
@@ -71,5 +72,12 @@ public class OrderCreateTest {
 
         Response createOrderResponse = orderClient.createOrder(orderIncorrectIngredients, accessToken);
         orderChecks.notToCreateOrderWithInvalidHash(createOrderResponse);
+    }
+
+    @After
+    public void cleanUp() {
+        if (accessToken != null) {
+            client.delete(accessToken);
+        }
     }
 }

@@ -3,6 +3,7 @@ package order;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.example.order.*;
+import org.junit.After;
 import org.junit.Test;
 import org.example.user.*;
 
@@ -32,5 +33,12 @@ public class ListOfOrdersTest {
         accessToken = "";
         Response orderListResponse = orderClient.receivingListOfOrders(accessToken);
         orderChecks.notToDisplayedOrdersListWithoutAuthorization(orderListResponse);
+    }
+
+    @After
+    public void cleanUp() {
+        if (accessToken != null) {
+            client.delete(accessToken);
+        }
     }
 }

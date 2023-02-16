@@ -37,9 +37,8 @@ public class UserCreateTest {
     public void userCannotBeCreatedWithoutPasswordTest() {
         User user = generator.randomNotFullData();
         Response createResponse = client.create(user);
-        checks.toCreateWithoutPasswordFailed(createResponse);
-
         accessToken = createResponse.path("accessToken");
+        checks.toCreateWithoutPasswordFailed(createResponse);
     }
 
     @After
